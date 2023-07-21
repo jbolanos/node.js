@@ -1,19 +1,32 @@
-const MongoClient = require("mongodb").MongoClient;
+// npm install mongodb
+const MongoClient = require("mongodb");
+const client = new MongoClient("mongodb://localhost:27017/");
 
-const connectionString = "mondoDB://localhost:27017/dbname";
-
-const client = new MongoClient(connectionString);
-
-client.connect(function (err) {
-  if (err) throw err;
-  console.log("Connected!"); //- DEBUG
-  const collection = client.db("dbname").collection("users");
-
-  const query = { name: "John" };
-
-  const cursor = collection.find(query);
-
-  cursor.each((doc) => {
-    console.log(doc);
-  });
+client.connect((err) => {
+  if (err) {
+    console.log(err);
+    ProcessingInstruction.exit(1);
+  }
+  console.log("Connected successfully to MongoDB!");
 });
+
+const collection = client.db("mydb").collection("mycollection");
+
+const document = {
+  name: "John",
+  age: 37,
+};
+collection.insertOne(document, (err, result) => {
+  if (err) {
+    console.log(err);
+    ProcessingInstruction.exit(1);
+  }
+  console.log(result);
+});
+
+const cursor = collection.find();
+cursor.each((document) => {
+  console.log(document);
+});
+
+client.close();
