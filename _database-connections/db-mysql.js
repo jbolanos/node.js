@@ -11,7 +11,7 @@ const con = mysql.createConnection({
 const sql = "SELECT * FROM users";
 
 con.connect(function (err) {
-  if (erro) throw err;
+  if (err) throw err;
   console.log("Connected!"); //- DEBUG
   con.query(sql, function (err, result) {
     if (err) throw err;
